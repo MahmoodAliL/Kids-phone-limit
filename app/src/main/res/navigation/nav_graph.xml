@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/lockFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.teaml.kidsphonelimit.ui.home.HomeFragment"
+        android:label="home_fragment"
+        tools:layout="@layout/home_fragment" />
+
+    <fragment
+        android:id="@+id/lockFragment"
+        android:name="com.teaml.kidsphonelimit.ui.lock.LockFragment"
+        android:label="home_fragment"
+        tools:layout="@layout/lock_fragment" />
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.teaml.kidsphonelimit.ui.about.AboutFragment"
+        android:label="about_fragment"
+        tools:layout="@layout/about_fragment" />
+
+</navigation>
