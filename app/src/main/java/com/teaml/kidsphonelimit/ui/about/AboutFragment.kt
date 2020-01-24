@@ -17,6 +17,11 @@ class AboutFragment : Fragment() {
 
     private lateinit var viewModel: AboutViewModel
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // Use to deals with
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
