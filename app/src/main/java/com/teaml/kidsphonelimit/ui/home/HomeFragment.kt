@@ -31,6 +31,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         return inflater.inflate(R.layout.home_fragment, container, false)
     }
 
@@ -43,9 +44,6 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as? AppCompatActivity)?.setSupportActionBar(toolbar)
-
-        minute_picker.maxValue = 59
-        minute_picker.minValue = 1
 
         minute_picker.setFormatter { value ->
             String.format("%02d", value)

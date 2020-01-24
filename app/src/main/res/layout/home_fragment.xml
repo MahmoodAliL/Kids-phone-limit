@@ -54,35 +54,39 @@
         app:layout_constraintStart_toStartOf="@+id/star_vertical_guideline" />
 
 
-    <NumberPicker
+    <com.shawnlin.numberpicker.NumberPicker
         android:id="@+id/minute_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/Widget.AppTheme.NumberPicker"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/end_vertical_guideline"
         app:layout_constraintStart_toStartOf="@+id/star_vertical_guideline"
         app:layout_constraintTop_toTopOf="parent"
+        app:np_dividerThickness="0dp"
+        app:np_max="59"
+        app:np_min="1"
+        app:np_selectedTextColor="?attr/colorSecondary"
+        app:np_selectedTextSize="36sp"
+        app:np_textSize="36sp"
         tools:itemCount="3"
         tools:listitem="@layout/rv_item_minute" />
 
-    <ProgressBar
+    <com.teaml.circulartimerview.CircularTimerView
         android:id="@+id/progressbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:theme="@style/Widget.AppTheme.NumberPicker"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/end_vertical_guideline"
         app:layout_constraintStart_toStartOf="@+id/star_vertical_guideline"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:itemCount="3"
-        tools:listitem="@layout/rv_item_minute" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Group
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="minute_picker, minute_tv"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        app:constraint_referenced_ids="minute_picker, minute_tv" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/start_timer_btn"

@@ -6,8 +6,7 @@
 
     <style name="Widget.AppTheme.NumberPicker" parent="AppTheme">
         <item name="colorControlNormal">@android:color/transparent</item>
-        <item name="android:textColorPrimary">?attr/colorSecondary</item>
-        <item name="android:textSize">38sp</item>
+        <item name="android:textSize">32sp</item>
     </style>
 
 </resources>

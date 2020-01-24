@@ -1,2 +1,3 @@
 rootProject.name='Kids phone limit'
 include ':app'
+include ':circulartimerview'
