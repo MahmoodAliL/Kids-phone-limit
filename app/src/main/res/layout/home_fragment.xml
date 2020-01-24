@@ -8,21 +8,108 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:title=" "
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:title=" " />
 
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/navigation_to_lock_fragment_btn"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
+        android:fontFamily="sans-serif"
+        android:text="@string/set_time_limit"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toTopOf="@+id/description_tv"
+        app:layout_constraintStart_toStartOf="@+id/star_vertical_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/description_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/when_the_time_is_up_the_phone_will_lock"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:textColor="#707070"
+        app:layout_constraintBottom_toTopOf="@+id/minute_tv"
+        app:layout_constraintStart_toStartOf="@+id/star_vertical_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/title_tv" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/minute_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:fontFamily="sans-serif"
+        android:text="@string/minutes"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        app:layout_constraintBottom_toTopOf="@+id/minute_picker"
+        app:layout_constraintEnd_toStartOf="@+id/end_vertical_guideline"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/star_vertical_guideline" />
+
+
+    <NumberPicker
+        android:id="@+id/minute_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/Widget.AppTheme.NumberPicker"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/end_vertical_guideline"
+        app:layout_constraintStart_toStartOf="@+id/star_vertical_guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:itemCount="3"
+        tools:listitem="@layout/rv_item_minute" />
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/Widget.AppTheme.NumberPicker"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/end_vertical_guideline"
+        app:layout_constraintStart_toStartOf="@+id/star_vertical_guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:itemCount="3"
+        tools:listitem="@layout/rv_item_minute" />
+
+    <androidx.constraintlayout.widget.Group
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="minute_picker, minute_tv"
+        android:visibility="gone"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/start_timer_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:text="@string/start_timer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/end_vertical_guideline"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/star_vertical_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/minute_picker"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/star_vertical_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/end_vertical_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

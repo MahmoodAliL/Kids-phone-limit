@@ -3,10 +3,13 @@ package com.teaml.kidsphonelimit.ui.home
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.*
+import android.widget.NumberPicker
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.teaml.kidsphonelimit.R
+import com.teaml.kidsphonelimit.ui.home.adapter.MinutesAdapter
 import kotlinx.android.synthetic.main.home_fragment.*
 
 class HomeFragment : Fragment() {
@@ -20,6 +23,8 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+
+
     }
 
     override fun onCreateView(
@@ -39,6 +44,15 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (activity as? AppCompatActivity)?.setSupportActionBar(toolbar)
 
+        minute_picker.maxValue = 59
+        minute_picker.minValue = 1
+
+        minute_picker.setFormatter { value ->
+            String.format("%02d", value)
+        }
+
+        /*   recycler_view.adapter = MinutesAdapter()
+           recycler_view.layoutManager = LinearLayoutManager(context)*/
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -1,4 +1,8 @@
 <resources>
-    <string name="app_name">Kids phone limit</string>
+    <string name="app_name" translatable="false">Kids phone limit</string>
     <string name="about">About</string>
+    <string name="set_time_limit">Set time limit</string>
+    <string name="when_the_time_is_up_the_phone_will_lock">When the time is up, the phone will lock</string>
+    <string name="start_timer">Start Timer</string>
+    <string name="minutes">Minutes</string>
 </resources>

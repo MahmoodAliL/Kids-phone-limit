@@ -4,4 +4,10 @@
         <item name="backgroundTint">?attr/colorPrimaryVariant</item>
     </style>
 
+    <style name="Widget.AppTheme.NumberPicker" parent="AppTheme">
+        <item name="colorControlNormal">@android:color/transparent</item>
+        <item name="android:textColorPrimary">?attr/colorSecondary</item>
+        <item name="android:textSize">38sp</item>
+    </style>
+
 </resources>
