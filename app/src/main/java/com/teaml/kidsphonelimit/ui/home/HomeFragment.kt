@@ -1,18 +1,14 @@
 package com.teaml.kidsphonelimit.ui.home
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.teaml.circulartimerview.CircularTimerListener
 import com.teaml.circulartimerview.TimeFormatEnum
-
 import com.teaml.kidsphonelimit.R
 import com.teaml.kidsphonelimit.databinding.HomeFragmentBinding
-import java.text.DecimalFormat
-import kotlin.math.ceil
 
 class HomeFragment : Fragment() {
 
@@ -24,7 +20,7 @@ class HomeFragment : Fragment() {
 
     private var _binding: HomeFragmentBinding? = null
     private val binding get() = _binding!!
-    
+
     private var timeSelected = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,8 +41,6 @@ class HomeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -55,11 +49,26 @@ class HomeFragment : Fragment() {
         setSupportActionBar()
         setupMinutePicker()
         setupCircularTimerView()
-        
-        binding.startTimerBtn.setOnClickListener { 
-            startTimer(timeSelected)
-            binding.minutePickerLayout.visibility = View.GONE
-            binding.timerProgress.visibility = View.VISIBLE
+
+        binding.startTimerBtn.setOnClickListener {
+            with(binding) {
+                if (startTimerBtn.tag == "start") {
+                    startTimerBtn.tag = "stop"
+
+                    startTimer(binding.minutePicker.value)
+                    binding.minutePickerLayout.visibility = View.GONE
+                    binding.timerProgress.visibility = View.VISIBLE
+                    binding.startTimerBtn.text = resources.getString(R.string.stop_timer)
+
+                } else if (startTimerBtn.tag == "stop") {
+                    startTimerBtn.tag = "start"
+
+                    cancelTimer()
+                    binding.minutePickerLayout.visibility = View.VISIBLE
+                    binding.timerProgress.visibility = View.GONE
+                    binding.startTimerBtn.text = resources.getString(R.string.start_timer)
+                }
+            }
         }
 
     }
@@ -71,10 +80,6 @@ class HomeFragment : Fragment() {
     private fun setupMinutePicker() {
         binding.minutePicker.setFormatter { value ->
             String.format("%02d", value)
-        }
-        
-        binding.minutePicker.setOnValueChangedListener { _, _, newVal -> 
-            timeSelected = newVal
         }
     }
 
@@ -89,26 +94,35 @@ class HomeFragment : Fragment() {
 
             timerProgress.progress = 0f
             timerProgress.setCircularTimerListener(
-                CircularTimerListener1(), minute.toLong(),
-                TimeFormatEnum.MINUTES, 1000
+                CircularTimerListener1(),
+                minute.toLong(),
+                TimeFormatEnum.MINUTES,
+                100
             )
 
             timerProgress.startTimer()
         }
-        
+
+    }
+
+    private fun cancelTimer() {
+        binding.timerProgress.cancelTimer()
     }
 
     inner class CircularTimerListener1 : CircularTimerListener {
+
         override fun updateDataOnTick(remainingTimeInMs: Long): String? {
-            val decimalFormat = DecimalFormat("00")
-            val second = ceil(remainingTimeInMs.div(1_000f)).toInt()
-            Log.e("timer MS", remainingTimeInMs.toString())
-            Log.e("timer SE", second.toString())
-            val min = decimalFormat.format(second / 60)
-            val sec = decimalFormat.format(second % 60)
+
+            val remainingTimeInSecond = remainingTimeInMs.toSecond()
+            val min = String.format("%02d", remainingTimeInSecond.toMinute())
+            val sec = String.format("%02d", remainingTimeInSecond % 60)
 
             return "$min:$sec"
         }
+
+        private fun Long.toSecond() = this.div(1_000)
+        private fun Long.toMinute() = this.div(60)
+
 
         override fun onTimerFinished() {
             //Toast.makeText(context, "onTimerFinished", Toast.LENGTH_LONG).show()

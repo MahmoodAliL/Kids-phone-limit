@@ -104,6 +104,7 @@
         android:layout_marginStart="@dimen/margin_medium"
         android:layout_marginEnd="@dimen/margin_medium"
         android:text="@string/start_timer"
+        android:tag="start"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/end_vertical_guideline"
         app:layout_constraintHorizontal_bias="0.0"

@@ -414,4 +414,13 @@ class CircularTimerView : View {
             true
         }
     }
+
+    fun cancelTimer(): Boolean {
+        return if (countDownTimer == null) {
+            false
+        } else {
+            countDownTimer!!.cancel()
+            true
+        }
+    }
 }
