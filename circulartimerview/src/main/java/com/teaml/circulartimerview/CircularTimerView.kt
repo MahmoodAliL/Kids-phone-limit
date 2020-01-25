@@ -42,6 +42,9 @@ class CircularTimerView : View {
     private var circularTimerListener: CircularTimerListener? = null
     private var countDownTimer: CountDownTimer? = null
 
+    var isStarted: Boolean = false
+        private set
+
     constructor(
         context: Context,
         attrs: AttributeSet?,
@@ -411,6 +414,7 @@ class CircularTimerView : View {
             false
         } else {
             countDownTimer!!.start()
+            isStarted = true
             true
         }
     }
@@ -420,6 +424,7 @@ class CircularTimerView : View {
             false
         } else {
             countDownTimer!!.cancel()
+            isStarted = false
             true
         }
     }
