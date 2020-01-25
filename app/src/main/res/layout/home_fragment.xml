@@ -84,16 +84,17 @@
         app:maxValue="100"
         app:startingPoint="top"
         app:progressTextColor="?attr/colorOnSurface"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/top_horizontal_guideline"
         app:layout_constraintEnd_toStartOf="@+id/end_vertical_guideline"
         app:layout_constraintStart_toStartOf="@+id/star_vertical_guideline"
         app:layout_constraintBottom_toTopOf="@id/bottom_horizontal_guideline" />
 
     <androidx.constraintlayout.widget.Group
+        android:id="@+id/minute_picker_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids="minute_picker, minute_tv" />
 
     <com.google.android.material.button.MaterialButton
