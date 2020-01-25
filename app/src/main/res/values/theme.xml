@@ -11,9 +11,13 @@
 
         <item name="colorPrimary">@color/primary_color</item>
         <item name="colorPrimaryVariant">@color/primary_variant_color</item>
-        <item name="colorSecondary">@color/secondary_color</item>
 
-        <item name="colorSurface">@color/surface_color</item>
+        <item name="colorSecondary">@color/secondary_color</item>
+        <item name="colorSecondaryVariant">@color/light_grey_color</item>
+
+        <item name="colorSurface">@color/white_color</item>
+        <item name="backgroundColor">@color/white_color</item>
+
 
         <item name="materialButtonStyle">@style/Widget.AppTheme.Button</item>
 

@@ -49,6 +49,11 @@ dependencies {
     // Material design
     implementation 'com.google.android.material:material:1.2.0-alpha04'
 
+    // Fragment
+    implementation "androidx.fragment:fragment-ktx:$fragment_version"
+    implementation "androidx.fragment:fragment-testing:$fragment_version"
+
+
     // NumberPicker
     implementation 'com.shawnlin:number-picker:2.4.8'
 

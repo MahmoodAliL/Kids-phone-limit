@@ -36,7 +36,7 @@
         android:text="@string/when_the_time_is_up_the_phone_will_lock"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:textColor="#707070"
-        app:layout_constraintBottom_toTopOf="@+id/minute_tv"
+        app:layout_constraintBottom_toTopOf="@id/top_horizontal_guideline"
         app:layout_constraintStart_toStartOf="@+id/star_vertical_guideline"
         app:layout_constraintTop_toBottomOf="@+id/title_tv" />
 
@@ -58,10 +58,10 @@
         android:id="@+id/minute_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_horizontal_guideline"
         app:layout_constraintEnd_toStartOf="@+id/end_vertical_guideline"
         app:layout_constraintStart_toStartOf="@+id/star_vertical_guideline"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_horizontal_guideline"
         app:np_dividerThickness="0dp"
         app:np_max="59"
         app:np_min="1"
@@ -72,15 +72,23 @@
         tools:listitem="@layout/rv_item_minute" />
 
     <com.teaml.circulartimerview.CircularTimerView
-        android:id="@+id/progressbar"
+        android:id="@+id/timer_progress"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:theme="@style/Widget.AppTheme.NumberPicker"
-
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="0dp"
+        app:progressBackgroundColor="?attr/colorSecondary"
+        app:progressColor="?attr/colorSecondaryVariant"
+        app:backgroundColor="?attr/colorSurface"
+        app:backgroundWidth="8"
+        app:isClockwise="false"
+        app:textSize="34sp"
+        app:maxValue="100"
+        app:startingPoint="top"
+        app:progressTextColor="?attr/colorOnSurface"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/top_horizontal_guideline"
         app:layout_constraintEnd_toStartOf="@+id/end_vertical_guideline"
         app:layout_constraintStart_toStartOf="@+id/star_vertical_guideline"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/bottom_horizontal_guideline" />
 
     <androidx.constraintlayout.widget.Group
         android:layout_width="wrap_content"
@@ -99,7 +107,7 @@
         app:layout_constraintEnd_toEndOf="@id/end_vertical_guideline"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/star_vertical_guideline"
-        app:layout_constraintTop_toBottomOf="@+id/minute_picker"
+        app:layout_constraintTop_toBottomOf="@+id/bottom_horizontal_guideline"
         app:layout_constraintVertical_bias="0.3" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -115,5 +123,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_end="16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/top_horizontal_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.3" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottom_horizontal_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.7" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
