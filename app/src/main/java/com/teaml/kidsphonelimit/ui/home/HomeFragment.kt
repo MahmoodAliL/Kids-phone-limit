@@ -1,17 +1,20 @@
 package com.teaml.kidsphonelimit.ui.home
 
 import android.os.Bundle
-import android.text.SpannedString
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.onNavDestinationSelected
 import com.teaml.circulartimerview.CircularTimerListener
 import com.teaml.circulartimerview.TimeFormatEnum
 import com.teaml.kidsphonelimit.R
 import com.teaml.kidsphonelimit.databinding.HomeFragmentBinding
 import com.teaml.kidsphonelimit.utils.hide
 import com.teaml.kidsphonelimit.utils.show
+import kotlin.math.min
 
 class HomeFragment : Fragment() {
 
@@ -23,7 +26,7 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-
+        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -34,11 +37,6 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -47,11 +45,8 @@ class HomeFragment : Fragment() {
         initCircularTimerView()
 
         binding.startTimerBtn.setOnClickListener {
-            if (binding.timerProgress.isStarted) {
-                stopTimer()
-            } else {
-                startTimer()
-            }
+            viewModel.setTimeSelected(binding.minutePicker.value)
+            viewModel.setTimerState(binding.timerProgress.isStarted)
         }
 
     }
@@ -68,6 +63,19 @@ class HomeFragment : Fragment() {
 
     private fun initCircularTimerView() {
         binding.timerProgress.progress = 0f
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        viewModel.stopTimerLiveData.observe(viewLifecycleOwner) {
+            stopTimer()
+        }
+
+        viewModel.startTimerLiveData.observe(viewLifecycleOwner) { time ->
+            startTimer(time.toLong())
+        }
+
     }
 
     private fun stopTimer() {
@@ -88,17 +96,17 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun startTimer() {
-        startTimerProgress()
+    private fun startTimer(time: Long) {
+        startTimerProgress(time)
         updateUiToTimerProgressMode()
     }
 
-    private fun startTimerProgress() {
+    private fun startTimerProgress(time: Long) {
         with(binding) {
             timerProgress.progress = 0f
             timerProgress.setCircularTimerListener(
                 CircularTimerListener1(),
-                minutePicker.value.toLong(),
+                time,
                 TimeFormatEnum.MINUTES,
                 100
             )
@@ -140,10 +148,13 @@ class HomeFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return item.onNavDestinationSelected(findNavController()) || super.onOptionsItemSelected(item)
+    }
+
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
     }
-
 
 }
