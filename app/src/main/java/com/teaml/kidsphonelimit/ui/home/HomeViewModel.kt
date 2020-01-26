@@ -26,5 +26,10 @@ class HomeViewModel : ViewModel() {
         selectedTime = time
     }
 
+    fun startTimer(timerLengthSelection: Int) {
+
+    }
+
+
 
 }

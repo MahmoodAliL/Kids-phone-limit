@@ -27,6 +27,7 @@ class HomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        viewModel.setTimeSelected(1)
     }
 
     override fun onCreateView(
@@ -45,7 +46,6 @@ class HomeFragment : Fragment() {
         initCircularTimerView()
 
         binding.startTimerBtn.setOnClickListener {
-            viewModel.setTimeSelected(binding.minutePicker.value)
             viewModel.setTimerState(binding.timerProgress.isStarted)
         }
 
@@ -58,6 +58,9 @@ class HomeFragment : Fragment() {
     private fun initMinutePicker() {
         binding.minutePicker.setFormatter { value ->
             String.format("%02d", value)
+        }
+        binding.minutePicker.setOnValueChangedListener { _, _, newVal ->
+            viewModel.setTimeSelected(newVal)
         }
     }
 
@@ -104,6 +107,8 @@ class HomeFragment : Fragment() {
     private fun startTimerProgress(time: Long) {
         with(binding) {
             timerProgress.progress = 0f
+
+
             timerProgress.setCircularTimerListener(
                 CircularTimerListener1(),
                 time,
