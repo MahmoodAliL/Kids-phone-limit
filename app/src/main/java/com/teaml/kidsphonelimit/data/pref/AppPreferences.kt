@@ -11,10 +11,10 @@ class AppPreferences(context: Context, fileName: String) : Preferences {
 
     private val prefs = context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
 
-    override fun saveTime(triggerTime: Long) {
+    override suspend fun saveTime(triggerTime: Long) {
         prefs.edit { putLong(PREF_KEY_TRIGGER_TIME, triggerTime) }
     }
 
-    override fun loadTime(): Long = prefs.getLong(PREF_KEY_TRIGGER_TIME, 0)
+    override suspend fun loadTime(): Long = prefs.getLong(PREF_KEY_TRIGGER_TIME, 0)
 
 }

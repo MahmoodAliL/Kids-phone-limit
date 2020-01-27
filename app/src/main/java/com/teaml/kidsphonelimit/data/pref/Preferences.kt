@@ -2,7 +2,7 @@ package com.teaml.kidsphonelimit.data.pref
 
 interface Preferences {
 
-    fun saveTime(triggerTime: Long)
+    suspend fun saveTime(triggerTime: Long)
 
-    fun loadTime(): Long
+    suspend fun loadTime(): Long
 }
