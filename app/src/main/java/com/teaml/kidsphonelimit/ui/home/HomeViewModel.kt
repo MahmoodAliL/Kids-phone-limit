@@ -3,8 +3,9 @@ package com.teaml.kidsphonelimit.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.teaml.kidsphonelimit.data.repository.TimeRepository
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(private val repository: TimeRepository) : ViewModel() {
 
 
     private val _stopTimer = MutableLiveData<Unit>()

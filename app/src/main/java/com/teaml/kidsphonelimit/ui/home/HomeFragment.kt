@@ -14,7 +14,6 @@ import com.teaml.kidsphonelimit.R
 import com.teaml.kidsphonelimit.databinding.HomeFragmentBinding
 import com.teaml.kidsphonelimit.utils.hide
 import com.teaml.kidsphonelimit.utils.show
-import kotlin.math.min
 
 class HomeFragment : Fragment() {
 
@@ -48,7 +47,6 @@ class HomeFragment : Fragment() {
         binding.startTimerBtn.setOnClickListener {
             viewModel.setTimerState(binding.timerProgress.isStarted)
         }
-
     }
 
     private fun setSupportActionBar() {
