@@ -1,10 +1,12 @@
 <resources>
-    <string name="app_name" translatable="false">Kids phone limit</string>
-    <string name="about">About</string>
+    <string name="app_name" translatable="false">Kids Phone Limit</string>
     <string name="set_time_limit">Set time limit</string>
     <string name="timer_is_starting">Timer is starting</string>
     <string name="when_the_time_is_up_the_phone_will_lock">When the time is up, the phone will lock</string>
     <string name="start_timer">Start Timer</string>
     <string name="stop_timer">Stop Timer</string>
     <string name="minutes">Minutes</string>
+    <string name="about">About</string>
+    <string name="developed_by_team_l" translatable="false">Developed by Team-L</string>
+    <string name="version">Version %1$s</string>
 </resources>

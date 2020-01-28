@@ -19,7 +19,7 @@
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.teaml.kidsphonelimit.ui.about.AboutFragment"
-        android:label="about_fragment"
+        android:label="@string/about"
         tools:layout="@layout/about_fragment" />
 
 </navigation>

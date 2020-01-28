@@ -63,7 +63,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initCircularTimerView() {
-        binding.timerProgress.progress = 0f
+        binding.timerProgress.progress = 50f
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -104,7 +104,7 @@ class HomeFragment : Fragment() {
 
     private fun startTimerProgress(time: Long) {
         with(binding) {
-            timerProgress.progress = 0f
+            timerProgress.progress = 50f
 
 
             timerProgress.setCircularTimerListener(
