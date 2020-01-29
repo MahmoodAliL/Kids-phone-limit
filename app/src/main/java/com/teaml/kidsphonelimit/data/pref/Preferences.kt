@@ -2,9 +2,9 @@ package com.teaml.kidsphonelimit.data.pref
 
 interface Preferences {
 
-    suspend fun saveTime(triggerTime: Long)
+    suspend fun saveTriggerTime(triggerTime: Long)
 
-    suspend fun loadTime(): Long
+    suspend fun loadTriggerTime(): Long
 
     suspend fun saveSelectedTimer(time: Int)
 

@@ -18,9 +18,7 @@ import com.teaml.circulartimerview.TimeFormatEnum
 import com.teaml.kidsphonelimit.R
 import com.teaml.kidsphonelimit.databinding.HomeFragmentBinding
 import com.teaml.kidsphonelimit.receiver.AlarmReceiver
-import com.teaml.kidsphonelimit.utils.eventObserver
-import com.teaml.kidsphonelimit.utils.hide
-import com.teaml.kidsphonelimit.utils.show
+import com.teaml.kidsphonelimit.utils.*
 import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.qualifier.named
@@ -43,7 +41,6 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-
     }
 
     override fun onCreateView(
@@ -91,6 +88,7 @@ class HomeFragment : Fragment() {
         }
 
         homeViewModel.timerProgressLiveData.observe(viewLifecycleOwner) { (timeInMinute, progress) ->
+            Log.e("HomeFragment", "minute  :$timeInMinute, progress : $progress")
             startTimerProgress(timeInMinute, progress)
         }
 
@@ -113,10 +111,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun stopTimerProgress() {
-        binding.timerProgress.cancelTimer()
-    }
-
     private fun updateUiToMinutePickerMode() {
         stopTimerProgress()
         with(binding) {
@@ -127,9 +121,12 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun stopTimerProgress() {
+        binding.timerProgress.cancelTimer()
+    }
+
     private fun startTimerProgress(time: Int, progress: Long) {
         with(binding) {
-
             timerProgress.setCircularTimerListener(
                 CircularTimerListener1(),
                 time.toLong(),
@@ -154,20 +151,17 @@ class HomeFragment : Fragment() {
 
     inner class CircularTimerListener1 : CircularTimerListener {
 
-        private fun Long.toSecond() = this.div(1_000)
-        private fun Long.toMinute() = this.div(60)
-
         override fun updateDataOnTick(remainingTimeInMs: Long): String? {
 
-            val remainingTimeInSecond = remainingTimeInMs.toSecond()
-            val min = String.format("%02d", remainingTimeInSecond.toMinute())
-            val sec = String.format("%02d", remainingTimeInSecond % 60)
+            val min = String.format("%02d", remainingTimeInMs.millisToMinute())
+            val sec = String.format("%02d", remainingTimeInMs.millisToSecond() % 60)
 
             return "$min:$sec"
         }
 
         override fun onTimerFinished() {
             homeViewModel.onTimerFinished()
+            Log.e("HomeFragment", "onTimerFinished")
         }
     }
 

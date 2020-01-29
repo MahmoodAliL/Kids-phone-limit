@@ -16,6 +16,10 @@ fun View.show() {
 
 fun Int.minuteToMillis() = this * 1_000
 
+fun Long.millisToSecond() = this.div(1_000)
+
+fun Long.millisToMinute() = this.millisToSecond().div(60)
+
 /**
  * An [Observer] for [Event]s, simplifying the pattern of checking if the [Event]'s content has
  * already been handled.

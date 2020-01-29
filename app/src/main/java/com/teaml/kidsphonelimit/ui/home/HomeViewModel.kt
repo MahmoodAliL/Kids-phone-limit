@@ -1,6 +1,7 @@
 package com.teaml.kidsphonelimit.ui.home
 
 import android.os.SystemClock
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,13 +28,14 @@ class HomeViewModel(private val repository: TimeRepository) : ViewModel() {
     private val _stopAlarmManager = MutableLiveData<Event<Unit>>()
     val stopAlarmManager: LiveData<Event<Unit>> get() = _stopAlarmManager
 
-
     private var selectedTime = 1
 
     init {
         viewModelScope.launch {
             _timerOn.value = repository.loadTimerState()
-            updateTimerProgress()
+            _timerOn.value?.let { isTimerOn ->
+                if (isTimerOn)  updateTimerProgress()
+            }
         }
     }
 
@@ -73,19 +75,21 @@ class HomeViewModel(private val repository: TimeRepository) : ViewModel() {
     }
 
     private fun saveTimerState(state: Boolean) {
-        viewModelScope.launch {
-            repository.saveTimerState(state)
-        }
+        viewModelScope.launch { repository.saveTimerState(state) }
     }
 
     private fun saveTime(triggerTime: Long) {
-        viewModelScope.launch { repository.saveTime(triggerTime) }
+        viewModelScope.launch { repository.saveTriggerTime(triggerTime) }
+    }
+
+    private fun saveSelectedTimeLength(time: Int) {
+        viewModelScope.launch { repository.saveSelectedTimer(time) }
     }
 
     private fun updateTimerProgress() {
         viewModelScope.launch {
             val selectedTime = repository.loadSelectedTimer()
-            val triggerTime = repository.loadTime()
+            val triggerTime = repository.loadTriggerTime()
 
             var elapsedTime = triggerTime - SystemClock.elapsedRealtime()
             elapsedTime = selectedTime.minuteToMillis() - elapsedTime
@@ -95,13 +99,10 @@ class HomeViewModel(private val repository: TimeRepository) : ViewModel() {
         }
     }
 
-    private fun saveSelectedTimeLength(time: Int) {
-        viewModelScope.launch { repository.saveSelectedTimer(time) }
-    }
-
 
     fun onTimerFinished() {
-        _timerOn.value = false
+        //_timerOn.value = false
+        stopTimer()
     }
 
     private fun stopTimer() {
