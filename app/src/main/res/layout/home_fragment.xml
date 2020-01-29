@@ -81,7 +81,6 @@
         app:backgroundWidth="8"
         app:isClockwise="false"
         app:textSize="34sp"
-        app:maxValue="100"
         app:startingPoint="top"
         app:progressTextColor="?attr/colorOnSurface"
         android:visibility="gone"

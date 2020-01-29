@@ -1,10 +1,15 @@
 package com.teaml.kidsphonelimit.ui.home
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.AlarmManagerCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
@@ -12,21 +17,33 @@ import com.teaml.circulartimerview.CircularTimerListener
 import com.teaml.circulartimerview.TimeFormatEnum
 import com.teaml.kidsphonelimit.R
 import com.teaml.kidsphonelimit.databinding.HomeFragmentBinding
+import com.teaml.kidsphonelimit.receiver.AlarmReceiver
+import com.teaml.kidsphonelimit.utils.eventObserver
 import com.teaml.kidsphonelimit.utils.hide
 import com.teaml.kidsphonelimit.utils.show
+import org.koin.androidx.scope.currentScope
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.qualifier.named
 
 class HomeFragment : Fragment() {
 
-    private lateinit var viewModel: HomeViewModel
+    companion object {
+        private const val TIMER_INTERVAL = 100L
+    }
+
+    private val homeViewModel: HomeViewModel by viewModel()
 
     private var _binding: HomeFragmentBinding? = null
     private val binding get() = _binding!!
 
+    private val alarmManager: AlarmManager by currentScope.inject()
+    private val notifyPendingIntent: PendingIntent by currentScope.inject()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
-        viewModel.setTimeSelected(1)
+
     }
 
     override fun onCreateView(
@@ -34,6 +51,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = HomeFragmentBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
@@ -42,11 +60,11 @@ class HomeFragment : Fragment() {
 
         setSupportActionBar()
         initMinutePicker()
-        initCircularTimerView()
 
         binding.startTimerBtn.setOnClickListener {
-            viewModel.setTimerState(binding.timerProgress.isStarted)
+            homeViewModel.updateTimerState()
         }
+
     }
 
     private fun setSupportActionBar() {
@@ -57,31 +75,42 @@ class HomeFragment : Fragment() {
         binding.minutePicker.setFormatter { value ->
             String.format("%02d", value)
         }
-        binding.minutePicker.setOnValueChangedListener { _, _, newVal ->
-            viewModel.setTimeSelected(newVal)
-        }
-    }
 
-    private fun initCircularTimerView() {
-        binding.timerProgress.progress = 50f
+        binding.minutePicker.setOnValueChangedListener { _, _, newVal ->
+            homeViewModel.setTimeSelected(newVal)
+        }
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.stopTimerLiveData.observe(viewLifecycleOwner) {
-            stopTimer()
+
+        homeViewModel.isTimerOn.observe(viewLifecycleOwner) {
+            if (it) updateUiToTimerProgressMode() else updateUiToMinutePickerMode()
         }
 
-        viewModel.startTimerLiveData.observe(viewLifecycleOwner) { time ->
-            startTimer(time.toLong())
+        homeViewModel.timerProgressLiveData.observe(viewLifecycleOwner) { (timeInMinute, progress) ->
+            startTimerProgress(timeInMinute, progress)
         }
 
-    }
+        homeViewModel.selectedTimeLiveData.observe(viewLifecycleOwner) { selectedTime ->
+            binding.minutePicker.value = selectedTime
+        }
 
-    private fun stopTimer() {
-        stopTimerProgress()
-        updateUiToMinutePickerMode()
+        homeViewModel.startAlarmManager.eventObserver(viewLifecycleOwner) { triggerTime ->
+
+            AlarmManagerCompat.setExactAndAllowWhileIdle(
+                alarmManager,
+                AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                triggerTime,
+                notifyPendingIntent
+            )
+        }
+
+        homeViewModel.stopAlarmManager.eventObserver(viewLifecycleOwner) {
+            alarmManager.cancel(notifyPendingIntent)
+        }
     }
 
     private fun stopTimerProgress() {
@@ -89,6 +118,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateUiToMinutePickerMode() {
+        stopTimerProgress()
         with(binding) {
             minutePickerLayout.show()
             timerProgress.hide()
@@ -97,22 +127,17 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun startTimer(time: Long) {
-        startTimerProgress(time)
-        updateUiToTimerProgressMode()
-    }
-
-    private fun startTimerProgress(time: Long) {
+    private fun startTimerProgress(time: Int, progress: Long) {
         with(binding) {
-            timerProgress.progress = 50f
-
 
             timerProgress.setCircularTimerListener(
                 CircularTimerListener1(),
-                time,
-                TimeFormatEnum.MINUTES,
-                100
+                time.toLong(),
+                TimeFormatEnum.SECONDS,
+                TIMER_INTERVAL,
+                progress
             )
+
             timerProgress.startTimer()
         }
     }
@@ -142,7 +167,7 @@ class HomeFragment : Fragment() {
         }
 
         override fun onTimerFinished() {
-            stopTimer()
+            homeViewModel.onTimerFinished()
         }
     }
 
@@ -152,7 +177,9 @@ class HomeFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return item.onNavDestinationSelected(findNavController()) || super.onOptionsItemSelected(item)
+        return item.onNavDestinationSelected(findNavController()) || super.onOptionsItemSelected(
+            item
+        )
     }
 
     override fun onDestroy() {

@@ -62,12 +62,16 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
     implementation "androidx.fragment:fragment-testing:$fragment_version"
 
-
     // NumberPicker
     implementation 'com.shawnlin:number-picker:2.4.8'
 
     // CircularTimerView
     implementation project(path: ':circulartimerview')
+
+    // Koin
+    implementation "org.koin:koin-android:$koin_version"
+    implementation "org.koin:koin-androidx-scope:$koin_version"
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 
     // KTX
     implementation "androidx.core:core-ktx:1.1.0"

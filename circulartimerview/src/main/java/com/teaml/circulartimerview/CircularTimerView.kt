@@ -376,7 +376,8 @@ class CircularTimerView : View {
         circularTimerListener: CircularTimerListener,
         time: Long,
         timeFormatEnum: TimeFormatEnum?,
-        timeinterval: Long
+        timeinterval: Long,
+        progress: Long
     ) {
         this.circularTimerListener = circularTimerListener
         var timeInMillis: Long = 0
@@ -393,10 +394,15 @@ class CircularTimerView : View {
         val maxTime = timeInMillis
         countDownTimer = object : CountDownTimer(maxTime, timeinterval) {
             override fun onTick(l: Long) {
-                val percentTimeCompleted = (maxTime - l) / maxTime.toDouble()
+                val percentTimeCompleted = (maxTime - l + progress) / maxTime.toDouble()
                 drawUpto = (maxValue * percentTimeCompleted).toFloat()
-                text = circularTimerListener.updateDataOnTick(l)
+                text = circularTimerListener.updateDataOnTick(l - progress.toLong())
                 invalidate()
+
+                if (percentTimeCompleted >= 1.0) {
+                    onFinish()
+                }
+
             }
 
             override fun onFinish() {
