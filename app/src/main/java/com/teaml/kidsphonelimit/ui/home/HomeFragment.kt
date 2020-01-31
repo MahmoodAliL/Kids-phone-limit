@@ -2,9 +2,8 @@ package com.teaml.kidsphonelimit.ui.home
 
 import android.app.AlarmManager
 import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
@@ -17,23 +16,22 @@ import com.teaml.circulartimerview.CircularTimerListener
 import com.teaml.circulartimerview.TimeFormatEnum
 import com.teaml.kidsphonelimit.R
 import com.teaml.kidsphonelimit.databinding.HomeFragmentBinding
-import com.teaml.kidsphonelimit.receiver.AlarmReceiver
 import com.teaml.kidsphonelimit.utils.*
 import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.qualifier.named
 
 class HomeFragment : Fragment() {
 
     companion object {
         private const val TIMER_INTERVAL = 100L
+        private const val TAG = "HomeFragment"
     }
 
-    private val homeViewModel: HomeViewModel by viewModel()
 
     private var _binding: HomeFragmentBinding? = null
     private val binding get() = _binding!!
 
+    private val homeViewModel: HomeViewModel by viewModel()
     private val alarmManager: AlarmManager by currentScope.inject()
     private val notifyPendingIntent: PendingIntent by currentScope.inject()
 
@@ -48,7 +46,6 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = HomeFragmentBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -59,9 +56,8 @@ class HomeFragment : Fragment() {
         initMinutePicker()
 
         binding.startTimerBtn.setOnClickListener {
-            homeViewModel.updateTimerState()
+            homeViewModel.toggleTimerState()
         }
-
     }
 
     private fun setSupportActionBar() {
@@ -82,17 +78,19 @@ class HomeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-
         homeViewModel.isTimerOn.observe(viewLifecycleOwner) {
-            if (it) updateUiToTimerProgressMode() else updateUiToMinutePickerMode()
+            if (it) {
+                updateUiToTimerProgressMode()
+            } else {
+                updateUiToMinutePickerMode()
+            }
         }
 
-        homeViewModel.timerProgressLiveData.observe(viewLifecycleOwner) { (timeInMinute, progress) ->
-            Log.e("HomeFragment", "minute  :$timeInMinute, progress : $progress")
-            startTimerProgress(timeInMinute, progress)
+        homeViewModel.timerProgress.observe(viewLifecycleOwner) { (timeSelected, elapsedTime) ->
+            startTimerProgress(timeSelected, elapsedTime)
         }
 
-        homeViewModel.selectedTimeLiveData.observe(viewLifecycleOwner) { selectedTime ->
+        homeViewModel.timeSelected.observe(viewLifecycleOwner) { selectedTime ->
             binding.minutePicker.value = selectedTime
         }
 
@@ -104,10 +102,12 @@ class HomeFragment : Fragment() {
                 triggerTime,
                 notifyPendingIntent
             )
+            Log.d(TAG, "onActivityCreated: startAlarmManager")
         }
 
         homeViewModel.stopAlarmManager.eventObserver(viewLifecycleOwner) {
             alarmManager.cancel(notifyPendingIntent)
+            Log.d(TAG, "onActivityCreated: stopAlarmManager")
         }
     }
 
@@ -140,6 +140,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateUiToTimerProgressMode() {
+        homeViewModel.updateTimerProgress()
         with(binding) {
             timerProgress.show()
             minutePickerLayout.hide()
@@ -153,15 +154,11 @@ class HomeFragment : Fragment() {
 
         override fun updateDataOnTick(remainingTimeInMs: Long): String? {
 
-            val min = String.format("%02d", remainingTimeInMs.millisToMinute())
-            val sec = String.format("%02d", remainingTimeInMs.millisToSecond() % 60)
-
-            return "$min:$sec"
+            return DateUtils.formatElapsedTime(TimeUtils.millisToSecond(remainingTimeInMs))
         }
 
         override fun onTimerFinished() {
-            homeViewModel.onTimerFinished()
-            Log.e("HomeFragment", "onTimerFinished")
+
         }
     }
 

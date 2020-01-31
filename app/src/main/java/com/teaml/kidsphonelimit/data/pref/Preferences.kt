@@ -6,9 +6,9 @@ interface Preferences {
 
     suspend fun loadTriggerTime(): Long
 
-    suspend fun saveSelectedTimer(time: Int)
+    suspend fun saveTimeSelected(time: Int)
 
-    suspend fun loadSelectedTimer(): Int
+    suspend fun loadTimeSelected(): Int
 
     suspend fun saveTimerState(state: Boolean)
 

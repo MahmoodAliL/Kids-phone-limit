@@ -20,11 +20,11 @@ class AppPreferences(context: Context, fileName: String) : Preferences {
     override suspend fun loadTriggerTime(): Long = prefs.getLong(PREF_KEY_TRIGGER_TIME, 0)
 
 
-    override suspend fun saveSelectedTimer(time: Int) {
+    override suspend fun saveTimeSelected(time: Int) {
         prefs.edit { putInt(PREF_KEY_SELECTED_TIMER_LENGTH, time) }
     }
 
-    override suspend fun loadSelectedTimer(): Int = prefs.getInt(PREF_KEY_SELECTED_TIMER_LENGTH, 0)
+    override suspend fun loadTimeSelected(): Int = prefs.getInt(PREF_KEY_SELECTED_TIMER_LENGTH, 0)
 
     override suspend fun saveTimerState(state: Boolean) {
         prefs.edit { putBoolean(PREF_KEY_TIMER_STATE, state) }
