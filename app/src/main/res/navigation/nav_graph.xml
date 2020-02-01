@@ -2,8 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/homeFragment"
+    android:id="@+id/navigation">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -16,6 +16,7 @@
         android:name="com.teaml.kidsphonelimit.ui.lock.LockFragment"
         android:label="home_fragment"
         tools:layout="@layout/lock_fragment" />
+
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.teaml.kidsphonelimit.ui.about.AboutFragment"

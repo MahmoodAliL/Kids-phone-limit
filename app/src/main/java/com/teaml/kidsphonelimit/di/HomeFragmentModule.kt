@@ -4,6 +4,8 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import androidx.navigation.NavDeepLinkBuilder
+import com.teaml.kidsphonelimit.R
 import com.teaml.kidsphonelimit.data.pref.AppPreferences
 import com.teaml.kidsphonelimit.data.pref.Preferences
 import com.teaml.kidsphonelimit.data.repository.TimeRepository
@@ -19,13 +21,7 @@ import org.koin.dsl.module
 
 val homeFragmentModule = module {
 
-    viewModel {
-        HomeViewModel(get())
-    }
-
-    single<Preferences> { AppPreferences(androidContext(), PREF_FILE_NAME) }
-
-    single { TimeRepository(get()) }
+    viewModel { HomeViewModel(get()) }
 
     scope(named<HomeFragment>()) {
 
@@ -41,7 +37,6 @@ val homeFragmentModule = module {
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
         }
-
     }
 
 }

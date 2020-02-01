@@ -153,7 +153,6 @@ class HomeFragment : Fragment() {
     inner class CircularTimerListener1 : CircularTimerListener {
 
         override fun updateDataOnTick(remainingTimeInMs: Long): String? {
-
             return DateUtils.formatElapsedTime(TimeUtils.millisToSecond(remainingTimeInMs))
         }
 

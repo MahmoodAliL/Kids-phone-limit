@@ -13,4 +13,8 @@ interface Preferences {
     suspend fun saveTimerState(state: Boolean)
 
     suspend fun loadTimerState(): Boolean
+
+    suspend fun saveLockState(state: Boolean)
+
+    suspend fun loadLockState(): Boolean
 }

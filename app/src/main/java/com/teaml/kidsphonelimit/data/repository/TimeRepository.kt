@@ -28,5 +28,11 @@ class TimeRepository(private val preferences: Preferences): Preferences {
         return preferences.loadTimerState()
     }
 
+    override suspend fun saveLockState(state: Boolean) {
+        preferences.saveLockState(state)
+    }
 
+    override suspend fun loadLockState(): Boolean {
+        return preferences.loadLockState()
+    }
 }

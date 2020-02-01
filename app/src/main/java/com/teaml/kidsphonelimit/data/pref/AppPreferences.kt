@@ -9,6 +9,7 @@ class AppPreferences(context: Context, fileName: String) : Preferences {
         const val PREF_KEY_TRIGGER_TIME = "PREF_KEY_TRIGGER_TIME"
         const val PREF_KEY_SELECTED_TIMER_LENGTH = "PREF_KEY_SELECTED_TIMER_LENGTH"
         const val PREF_KEY_TIMER_STATE = "PREF_KEY_TIMER_STATE"
+        const val PREF_KEY_LOCK_STATE = "PREF_KEY_LOCK_STATE"
     }
 
     private val prefs = context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
@@ -31,4 +32,10 @@ class AppPreferences(context: Context, fileName: String) : Preferences {
     }
 
     override suspend fun loadTimerState() = prefs.getBoolean(PREF_KEY_TIMER_STATE, false)
+
+    override suspend fun saveLockState(state: Boolean) {
+        prefs.edit { putBoolean(PREF_KEY_LOCK_STATE, state) }
+    }
+
+    override suspend fun loadLockState() = prefs.getBoolean(PREF_KEY_LOCK_STATE, false)
 }
