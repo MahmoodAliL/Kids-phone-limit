@@ -1,5 +1,8 @@
 package com.teaml.kidsphonelimit.utils
 
+import android.os.Handler
+import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import androidx.lifecycle.*
 
@@ -11,12 +14,27 @@ fun View.show() {
     this.visibility = View.VISIBLE
 }
 
+fun View.setOnLongPressClick(duration: Long, listener: () -> Unit) {
 
-fun LiveData<Boolean>.getValueOrDefault(default: Boolean = false): Boolean {
-    return this.value ?: default
+    setOnTouchListener { _, motionEvent ->
+        val handler = Handler()
+
+        when (motionEvent.action) {
+            MotionEvent.ACTION_DOWN -> {
+                handler.postDelayed({
+                    listener.invoke()
+                }, duration)
+            }
+
+            MotionEvent.ACTION_UP -> {
+                handler.removeCallbacksAndMessages(null)
+            }
+        }
+        false
+    }
 }
 
-fun LiveData<Int>.getValueOrDefault(default: Int = 1 ): Int {
+fun LiveData<Int>.getValueOrDefault(default: Int = 1): Int {
     return this.value ?: default
 }
 

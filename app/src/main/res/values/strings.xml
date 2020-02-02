@@ -9,4 +9,6 @@
     <string name="about">About</string>
     <string name="developed_by_team_l" translatable="false">Developed by Team-L</string>
     <string name="version">Version %1$s</string>
+    <string name="time_s_up">Time\'s up</string>
+    <string name="long_press_on_open_lock_icon_for_5_second_to_unlock_phone">Long press on open lock icon for 5 second to unlock phone</string>
 </resources>

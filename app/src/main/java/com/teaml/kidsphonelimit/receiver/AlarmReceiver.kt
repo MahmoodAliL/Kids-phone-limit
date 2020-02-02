@@ -7,6 +7,7 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.navigation.NavDeepLinkBuilder
+import com.teaml.kidsphonelimit.MainActivity
 import com.teaml.kidsphonelimit.R
 import com.teaml.kidsphonelimit.data.repository.TimeRepository
 import kotlinx.coroutines.*
@@ -26,18 +27,19 @@ class AlarmReceiver : BroadcastReceiver(), KoinComponent {
     }
 
     override fun onReceive(context: Context, intent: Intent) {
+        Log.d(TAG, "onReceive")
         Toast.makeText(context, "Finished", Toast.LENGTH_LONG).show()
+
 
         val pendingIntent: PendingIntent = NavDeepLinkBuilder(context)
             .setGraph(R.navigation.nav_graph)
             .setDestination(R.id.lockFragment)
             .createPendingIntent()
-
         pendingIntent.send()
 
-        Log.d(TAG, "onReceive")
         coroutineScope.launch {
             repository.saveTimerState(false)
+            repository.saveLockState(true)
         }
 
     }

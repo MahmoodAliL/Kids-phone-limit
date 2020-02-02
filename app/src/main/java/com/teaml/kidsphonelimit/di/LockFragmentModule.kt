@@ -1,6 +1,8 @@
 package com.teaml.kidsphonelimit.di
 
+import android.content.Intent
 import androidx.navigation.NavDeepLinkBuilder
+import com.teaml.kidsphonelimit.MainActivity
 import com.teaml.kidsphonelimit.R
 import com.teaml.kidsphonelimit.ui.home.HomeViewModel
 import com.teaml.kidsphonelimit.ui.lock.LockViewModel
@@ -18,4 +20,5 @@ val lockFragmentModule = module {
             .setDestination(R.id.lockFragment)
             .createPendingIntent()
     }
+
 }

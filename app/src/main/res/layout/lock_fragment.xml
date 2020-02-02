@@ -1,33 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.lock.LockFragment">
 
-    <TextView
+
+    <ImageView
         android:id="@+id/lock_text"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:src="@drawable/time_up_img1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/star_vertical_guideline"
+        app:layout_constraintStart_toStartOf="@+id/end_vertical_guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.08" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="22sp"
-        android:text="Lock Fragment"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:text="@string/time_s_up"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lock_text" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:text="@string/long_press_on_open_lock_icon_for_5_second_to_unlock_phone"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+        app:layout_constraintBottom_toTopOf="@+id/unlock_img"
+        app:layout_constraintEnd_toStartOf="@+id/star_vertical_guideline"
+        app:layout_constraintStart_toStartOf="@+id/end_vertical_guideline" />
+
+    <ImageView
+        android:id="@+id/unlock_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:contentDescription="@null"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="@dimen/space_medium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintVertical_bias="0.9"
+        app:srcCompat="@drawable/ic_lock_open_24dp" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/stop_button"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/end_vertical_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="stop"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lock_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/margin_medium" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/star_vertical_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/margin_medium" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

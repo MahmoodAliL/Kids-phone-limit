@@ -9,13 +9,21 @@
         android:id="@+id/homeFragment"
         android:name="com.teaml.kidsphonelimit.ui.home.HomeFragment"
         android:label="home_fragment"
-        tools:layout="@layout/home_fragment" />
+        tools:layout="@layout/home_fragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_lockFragment"
+            app:destination="@id/lockFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/lockFragment"
         android:name="com.teaml.kidsphonelimit.ui.lock.LockFragment"
         android:label="home_fragment"
-        tools:layout="@layout/lock_fragment" />
+        tools:layout="@layout/lock_fragment" >
+        <action
+            android:id="@+id/action_lockFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/aboutFragment"
