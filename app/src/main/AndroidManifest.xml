@@ -3,6 +3,8 @@
     package="com.teaml.kidsphonelimit">
 
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.REORDER_TASKS" />
+
     <application
         android:name=".App"
         android:allowBackup="true"

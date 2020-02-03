@@ -17,6 +17,7 @@ import com.teaml.circulartimerview.TimeFormatEnum
 import com.teaml.kidsphonelimit.R
 import com.teaml.kidsphonelimit.databinding.HomeFragmentBinding
 import com.teaml.kidsphonelimit.utils.*
+import org.koin.android.ext.android.inject
 import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -32,8 +33,8 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val homeViewModel: HomeViewModel by viewModel()
-    private val alarmManager: AlarmManager by currentScope.inject()
-    private val notifyPendingIntent: PendingIntent by currentScope.inject()
+    private val alarmManager: AlarmManager by inject()
+    private val notifyPendingIntent: PendingIntent by inject()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

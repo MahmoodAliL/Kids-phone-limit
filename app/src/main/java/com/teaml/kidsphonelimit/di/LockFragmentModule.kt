@@ -14,11 +14,11 @@ val lockFragmentModule = module {
 
     viewModel { LockViewModel(get()) }
 
-    single {
+   /* single {
         NavDeepLinkBuilder(androidContext())
             .setGraph(R.navigation.nav_graph)
             .setDestination(R.id.lockFragment)
             .createPendingIntent()
     }
-
+*/
 }

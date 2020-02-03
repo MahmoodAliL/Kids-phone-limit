@@ -1,5 +1,6 @@
 package com.teaml.kidsphonelimit.ui.lock
 
+import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -22,15 +23,15 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class LockFragment : Fragment() {
 
     private val lockViewModel: LockViewModel by viewModel()
-    private val deepNavPendingIntent: PendingIntent by inject()
-
+    //private val deepNavPendingIntent: PendingIntent by inject()
+    private val alarmManager: AlarmManager by inject()
+    private val notifyPendingIntent: PendingIntent by inject()
 
     private var _binding: LockFragmentBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        lockViewModel.saveTimerState(false)
         lockViewModel.enableLock()
     }
 
@@ -48,13 +49,24 @@ class LockFragment : Fragment() {
         binding.unlockImg.setOnLongPressClick(5_000) {
             lockViewModel.disableLock()
             findNavController().navigate(R.id.action_lockFragment_to_homeFragment)
+            //lockViewModel.navigateUp()
         }
 
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        lockViewModel.navigation.eventObserver(viewLifecycleOwner) {
+            findNavController().navigateUp()
+        }
+    }
+
+
+
     override fun onStop() {
         super.onStop()
-        lockViewModel.sendPendingIntentIfLockEnable(deepNavPendingIntent)
+        //lockViewModel.sendPendingIntentIfLockEnable(deepNavPendingIntent)
+        lockViewModel.setAlarmReceiver(alarmManager, notifyPendingIntent)
     }
 
     override fun onDestroy() {
