@@ -2,37 +2,53 @@ package com.teaml.kidsphonelimit.ui.lock
 
 import android.app.AlarmManager
 import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.os.VibrationEffect
-import android.os.Vibrator
+import android.os.SystemClock
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.AlarmManagerCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.teaml.kidsphonelimit.R
 import com.teaml.kidsphonelimit.databinding.LockFragmentBinding
+import com.teaml.kidsphonelimit.utils.Event
 import com.teaml.kidsphonelimit.utils.eventObserver
 import com.teaml.kidsphonelimit.utils.setOnLongPressClick
-import kotlinx.android.synthetic.main.lock_fragment.view.*
-import org.koin.android.ext.android.inject
+import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 class LockFragment : Fragment() {
 
+
+    companion object {
+        const val TAG = "LockFragment"
+    }
+
     private val lockViewModel: LockViewModel by viewModel()
-    //private val deepNavPendingIntent: PendingIntent by inject()
-    private val alarmManager: AlarmManager by inject()
-    private val notifyPendingIntent: PendingIntent by inject()
+
+    private val alarmManager: AlarmManager by currentScope.inject()
+    private val notifyPendingIntent: PendingIntent by currentScope.inject()
 
     private var _binding: LockFragmentBinding? = null
     private val binding get() = _binding!!
 
+
+    private val startAlarmManagerObserver = Observer<Event<Unit?>> {
+        it?.let {
+
+
+        }
+
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        lockViewModel.enableLock()
+        lockViewModel.lockPhone()
     }
 
     override fun onCreateView(
@@ -47,9 +63,8 @@ class LockFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.unlockImg.setOnLongPressClick(5_000) {
-            lockViewModel.disableLock()
+            lockViewModel.unlockPhone()
             findNavController().navigate(R.id.action_lockFragment_to_homeFragment)
-            //lockViewModel.navigateUp()
         }
 
     }
@@ -59,15 +74,25 @@ class LockFragment : Fragment() {
         lockViewModel.navigation.eventObserver(viewLifecycleOwner) {
             findNavController().navigateUp()
         }
-    }
 
+        lockViewModel.startAlarmManager.eventObserver(viewLifecycleOwner) {
+            Log.d(TAG, "onActivityCreated: startAlarmManager")
+            AlarmManagerCompat.setExactAndAllowWhileIdle(
+                alarmManager,
+                AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                SystemClock.elapsedRealtime() + 100L,
+                notifyPendingIntent
+            )
+        }
+    }
 
 
     override fun onStop() {
+        Log.d(TAG, "onStop: ")
+        lockViewModel.shouldLockPhone()
         super.onStop()
-        //lockViewModel.sendPendingIntentIfLockEnable(deepNavPendingIntent)
-        lockViewModel.setAlarmReceiver(alarmManager, notifyPendingIntent)
     }
+
 
     override fun onDestroy() {
         _binding = null

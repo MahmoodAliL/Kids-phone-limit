@@ -33,9 +33,9 @@ class AppPreferences(context: Context, fileName: String) : Preferences {
 
     override suspend fun loadTimerState() = prefs.getBoolean(PREF_KEY_TIMER_STATE, false)
 
-    override suspend fun saveLockState(state: Boolean) {
+    override fun saveLockState(state: Boolean) {
         prefs.edit { putBoolean(PREF_KEY_LOCK_STATE, state) }
     }
 
-    override suspend fun loadLockState() = prefs.getBoolean(PREF_KEY_LOCK_STATE, false)
+    override fun loadLockState() = prefs.getBoolean(PREF_KEY_LOCK_STATE, false)
 }

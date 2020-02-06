@@ -28,8 +28,6 @@ class AlarmReceiver : BroadcastReceiver(), KoinComponent {
 
     override fun onReceive(context: Context, intent: Intent) {
         Log.d(TAG, "onReceive")
-        Toast.makeText(context, "Finished", Toast.LENGTH_LONG).show()
-
 
         val pendingIntent: PendingIntent = NavDeepLinkBuilder(context)
             .setGraph(R.navigation.nav_graph)
@@ -43,7 +41,6 @@ class AlarmReceiver : BroadcastReceiver(), KoinComponent {
         }
 
     }
-
 
 
 }

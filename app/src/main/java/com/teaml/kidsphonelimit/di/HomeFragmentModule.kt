@@ -23,13 +23,13 @@ val homeFragmentModule = module {
 
     viewModel { HomeViewModel(get()) }
 
-    //scope(named<HomeFragment>()) {
+    scope(named<HomeFragment>()) {
 
-        factory { Intent(androidContext(), AlarmReceiver::class.java) }
+        scoped { Intent(androidContext(), AlarmReceiver::class.java) }
 
-        factory { androidContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager }
+        scoped { androidContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager }
 
-        factory {
+        scoped {
             PendingIntent.getBroadcast(
                 androidContext(),
                 AlarmReceiver.REQUEST_CODE,
@@ -37,6 +37,6 @@ val homeFragmentModule = module {
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
         }
-    //}
+    }
 
 }

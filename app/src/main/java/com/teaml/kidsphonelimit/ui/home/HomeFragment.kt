@@ -33,8 +33,8 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val homeViewModel: HomeViewModel by viewModel()
-    private val alarmManager: AlarmManager by inject()
-    private val notifyPendingIntent: PendingIntent by inject()
+    private val alarmManager: AlarmManager by currentScope.inject()
+    private val notifyPendingIntent: PendingIntent by currentScope.inject()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,6 +109,11 @@ class HomeFragment : Fragment() {
         homeViewModel.stopAlarmManager.eventObserver(viewLifecycleOwner) {
             alarmManager.cancel(notifyPendingIntent)
             Log.d(TAG, "onActivityCreated: stopAlarmManager")
+        }
+
+
+        homeViewModel.openLockFragment.eventObserver(viewLifecycleOwner) {
+            findNavController().navigate(R.id.action_homeFragment_to_lockFragment)
         }
     }
 

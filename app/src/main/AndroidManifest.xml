@@ -15,13 +15,17 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="fullSensor">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ExitActivity"
+            android:autoRemoveFromRecents="true"
+            android:theme="@android:style/Theme.NoDisplay"/>
 
         <receiver
             android:name=".receiver.AlarmReceiver"

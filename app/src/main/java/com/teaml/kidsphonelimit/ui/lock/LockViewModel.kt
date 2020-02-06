@@ -19,39 +19,28 @@ class LockViewModel(
     private val _navigation = MutableLiveData<Event<Unit>>()
     val navigation: LiveData<Event<Unit>> get() = _navigation
 
+    private val _startAlarmManager = MutableLiveData<Event<Unit>>()
+    val startAlarmManager: LiveData<Event<Unit>> get() = _startAlarmManager
+
     fun saveTimerState(state: Boolean) {
         viewModelScope.launch { timeRepository.saveTimerState(state) }
     }
 
-    fun disableLock() {
-        viewModelScope.launch { timeRepository.saveLockState(false) }
+    fun unlockPhone() {
+        timeRepository.saveLockState(false)
     }
 
-    fun enableLock() {
-        viewModelScope.launch { timeRepository.saveLockState(true) }
+    fun lockPhone() {
+        timeRepository.saveLockState(true)
     }
 
-    fun sendPendingIntentIfLockEnable(pendingIntent: PendingIntent) {
-        viewModelScope.launch {
-            val isLock = timeRepository.loadLockState()
-            if (isLock) {
-                pendingIntent.send()
-            }
+    fun shouldLockPhone() {
+
+        val isLock = timeRepository.loadLockState()
+        if (isLock) {
+            //_startAlarmManager.value = Event(Unit)
         }
-    }
 
-    fun setAlarmReceiver(alarmManager: AlarmManager, pendingIntent: PendingIntent) {
-        viewModelScope.launch {
-            val isLock = timeRepository.loadLockState()
-            if (isLock) {
-                AlarmManagerCompat.setExactAndAllowWhileIdle(
-                    alarmManager,
-                    AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    1000L,
-                    pendingIntent
-                )
-            }
-        }
     }
 
     fun navigateUp() {

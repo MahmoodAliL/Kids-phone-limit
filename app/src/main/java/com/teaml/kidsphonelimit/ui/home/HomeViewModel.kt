@@ -28,10 +28,23 @@ class HomeViewModel(private val repository: TimeRepository) : ViewModel() {
     private val _stopAlarmManager = MutableLiveData<Event<Unit>>()
     val stopAlarmManager: LiveData<Event<Unit>> get() = _stopAlarmManager
 
+    private val _openLockFragment = MutableLiveData<Event<Unit>>()
+    val openLockFragment: LiveData<Event<Unit>> get() = _openLockFragment
+
 
     init {
         viewModelScope.launch {
+            val isLocked = repository.loadLockState()
+            shouldStartLockFragment(isLocked)
+
             _timerOn.value = repository.loadTimerState()
+        }
+
+    }
+
+    private fun shouldStartLockFragment(isLocked: Boolean) {
+        if (isLocked) {
+            _openLockFragment.postValue(Event(Unit))
         }
     }
 

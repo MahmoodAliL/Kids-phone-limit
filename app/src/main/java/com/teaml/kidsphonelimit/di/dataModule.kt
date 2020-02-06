@@ -12,4 +12,5 @@ val dataModule = module {
     single { AppPreferences(androidContext(), PREF_FILE_NAME) as Preferences }
     single { TimeRepository(get()) }
 
+
 }

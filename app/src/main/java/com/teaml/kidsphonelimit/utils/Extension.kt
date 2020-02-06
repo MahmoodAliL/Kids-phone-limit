@@ -17,7 +17,6 @@ fun View.show() {
 fun View.setOnLongPressClick(duration: Long, listener: () -> Unit) {
 
     setOnTouchListener { _, motionEvent ->
-        val handler = Handler()
 
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
