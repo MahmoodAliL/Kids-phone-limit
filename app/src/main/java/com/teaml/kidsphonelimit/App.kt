@@ -17,39 +17,13 @@ import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
-class App : Application(), LifecycleObserver {
-
-    private val repository: TimeRepository by inject()
+class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
         startKoin {
             androidContext(this@App)
             modules(appComponent)
-        }
-        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
-    }
-
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onAppBackgrounded() {
-        if (repository.loadLockState()) {
-            val pendingIntent: PendingIntent = NavDeepLinkBuilder(applicationContext)
-                .setGraph(R.navigation.nav_graph)
-                .setDestination(R.id.lockFragment)
-                .createPendingIntent()
-
-            pendingIntent.send()
-            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-            AlarmManagerCompat.setExactAndAllowWhileIdle(
-                alarmManager,
-                AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() + 1L,
-                pendingIntent
-            )
-
-            ExitActivity.exitApp(applicationContext)
         }
     }
 

@@ -34,13 +34,8 @@ class LockViewModel(
         timeRepository.saveLockState(true)
     }
 
-    fun shouldLockPhone() {
-
-        val isLock = timeRepository.loadLockState()
-        if (isLock) {
-            //_startAlarmManager.value = Event(Unit)
-        }
-
+    fun shouldLockPhone(): Boolean {
+         return timeRepository.loadLockState()
     }
 
     fun navigateUp() {

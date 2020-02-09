@@ -11,7 +11,7 @@
         android:id="@+id/lock_text"
         android:layout_width="0dp"
         android:layout_height="300dp"
-        android:src="@drawable/time_up_img1"
+        android:src="@drawable/time_up_img2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/star_vertical_guideline"
         app:layout_constraintStart_toStartOf="@+id/end_vertical_guideline"
