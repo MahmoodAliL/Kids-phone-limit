@@ -8,4 +8,8 @@
     <string name="minutes">دقائق</string>
     <string name="version">أصدار %1$s</string>
     <string name="about" >حول</string>
+    <string name="time_s_up">انتهى الوقت</string>
+    <string name="long_press_on_open_lock_icon_for_5_second_to_unlock_phone">
+        اضغط مطولا لمدة 5 ثواني على ايقونة القفل لفتح الجهاز
+    </string>
 </resources>

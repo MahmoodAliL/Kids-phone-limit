@@ -19,8 +19,6 @@ import org.koin.dsl.module
 
 val lockFragmentModule = module {
 
-    viewModel { LockViewModel(get()) }
-
     scope(named<LockFragment>()) {
 
         scoped { Intent(androidContext(), AlarmReceiver::class.java) }

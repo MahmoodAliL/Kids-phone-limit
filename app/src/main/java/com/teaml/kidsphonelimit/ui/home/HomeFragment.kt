@@ -3,7 +3,6 @@ package com.teaml.kidsphonelimit.ui.home
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.os.Bundle
-import android.text.format.DateUtils
 import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
@@ -17,9 +16,9 @@ import com.teaml.circulartimerview.TimeFormatEnum
 import com.teaml.kidsphonelimit.R
 import com.teaml.kidsphonelimit.databinding.HomeFragmentBinding
 import com.teaml.kidsphonelimit.utils.*
-import org.koin.android.ext.android.inject
 import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 class HomeFragment : Fragment() {
 
@@ -67,7 +66,7 @@ class HomeFragment : Fragment() {
 
     private fun initMinutePicker() {
         binding.minutePicker.setFormatter { value ->
-            String.format("%02d", value)
+            String.format(Locale.ENGLISH,"%02d", value)
         }
 
         binding.minutePicker.setOnValueChangedListener { _, _, newVal ->
@@ -159,7 +158,8 @@ class HomeFragment : Fragment() {
     inner class CircularTimerListener1 : CircularTimerListener {
 
         override fun updateDataOnTick(remainingTimeInMs: Long): String? {
-            return DateUtils.formatElapsedTime(TimeUtils.millisToSecond(remainingTimeInMs))
+            return TimeUtils.formatElapsedTime(remainingTimeInMs, Locale.ENGLISH)
+            //return DateUtils.formatElapsedTime(TimeUtils.millisToSecond(remainingTimeInMs))
         }
 
         override fun onTimerFinished() {

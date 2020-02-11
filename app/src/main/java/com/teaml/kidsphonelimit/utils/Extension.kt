@@ -1,10 +1,11 @@
 package com.teaml.kidsphonelimit.utils
 
-import android.os.Handler
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import androidx.lifecycle.*
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 
 fun View.hide() {
     this.visibility = View.INVISIBLE

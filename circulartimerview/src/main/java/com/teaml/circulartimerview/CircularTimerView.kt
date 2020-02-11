@@ -396,7 +396,7 @@ class CircularTimerView : View {
             override fun onTick(l: Long) {
                 val percentTimeCompleted = (maxTime - l + progress) / maxTime.toDouble()
                 drawUpto = (maxValue * percentTimeCompleted).toFloat()
-                text = circularTimerListener.updateDataOnTick(l - progress.toLong())
+                text = circularTimerListener.updateDataOnTick(l - progress)
                 invalidate()
 
                 if (percentTimeCompleted >= 1.0) {

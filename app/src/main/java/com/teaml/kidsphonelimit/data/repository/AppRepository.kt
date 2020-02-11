@@ -2,7 +2,7 @@ package com.teaml.kidsphonelimit.data.repository
 
 import com.teaml.kidsphonelimit.data.pref.Preferences
 
-class TimeRepository(private val preferences: Preferences): Preferences {
+class AppRepository(private val preferences: Preferences): Preferences {
 
     override suspend fun saveTriggerTime(triggerTime: Long) {
         preferences.saveTriggerTime(triggerTime)

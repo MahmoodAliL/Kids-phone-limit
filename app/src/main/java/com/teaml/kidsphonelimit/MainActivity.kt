@@ -6,18 +6,11 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LifecycleOwner
-import androidx.navigation.NavGraph
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import com.teaml.kidsphonelimit.utils.eventObserver
-import org.koin.android.ext.android.get
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.teaml.kidsphonelimit.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
-
 
     companion object {
         fun exitApp(context: Context) {
@@ -34,11 +27,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        if (intent.getBooleanExtra("exist", false)) {
+        /*if (intent.getBooleanExtra("exist", false)) {
             if (Build.VERSION.SDK_INT >= 21) {
                 finishAndRemoveTask()
                 Log.d(ON_EXIST_TAG, "finishAndRemoveTask")
@@ -46,17 +42,17 @@ class MainActivity : AppCompatActivity() {
                 finish()
                 Log.d(ON_EXIST_TAG, "finish")
             }
-        }
+        }*/
 
     }
 
-    override fun onStart() {
+    /*override fun onStart() {
         super.onStart()
         if (intent.extras?.getBoolean("lock") == true) {
             findNavController(R.id.nav_host_fragment).navigate(R.id.action_homeFragment_to_lockFragment)
         }
         Log.d(ON_EXIST_TAG, "onStart MainActivity")
-    }
+    }*/
 
     override fun onStop() {
         super.onStop()
@@ -67,6 +63,8 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         Log.d(ON_EXIST_TAG, "onDestroy MainActivity")
     }
+
+
 
     override fun onBackPressed() {
         val currentFragment = findNavController(R.id.nav_host_fragment).currentDestination?.id

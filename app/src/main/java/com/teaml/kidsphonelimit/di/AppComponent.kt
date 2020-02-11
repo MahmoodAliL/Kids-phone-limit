@@ -1,7 +1,8 @@
 package com.teaml.kidsphonelimit.di
 
 val appComponent = listOf(
-    dataModule,
+    appModule,
+    viewModelModule,
     homeFragmentModule,
     lockFragmentModule
 )

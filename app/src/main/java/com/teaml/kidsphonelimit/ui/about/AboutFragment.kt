@@ -1,6 +1,5 @@
 package com.teaml.kidsphonelimit.ui.about
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,26 +8,16 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.teaml.kidsphonelimit.BuildConfig
-
 import com.teaml.kidsphonelimit.R
 import com.teaml.kidsphonelimit.databinding.AboutFragmentBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AboutFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = AboutFragment()
-    }
-
-    private lateinit var viewModel: AboutViewModel
+    private val aboutViewModel: AboutViewModel by viewModel()
 
     private var _binding: AboutFragmentBinding? = null
     private val binding get() = _binding!!
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(AboutViewModel::class.java)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,6 +49,5 @@ class AboutFragment : Fragment() {
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
-
     }
 }
