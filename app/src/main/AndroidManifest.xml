@@ -16,10 +16,10 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"
-            android:taskAffinity=".MainActivity"
             android:excludeFromRecents="true"
             android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:taskAffinity=".MainActivity"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,19 +29,13 @@
         </activity>
         <activity
             android:name=".ExitActivity"
-            android:theme="@android:style/Theme.NoDisplay"
             android:taskAffinity=".ExitActivity"
-            android:excludeFromRecents="true"
-            android:noHistory="true"
-            />
+            android:theme="@android:style/Theme.NoDisplay" />
 
         <receiver
-            android:stopWithTask="false"
             android:name=".receiver.AlarmReceiver"
             android:enabled="true"
             android:exported="false" />
-
-
     </application>
 
 </manifest>

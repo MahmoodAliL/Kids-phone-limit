@@ -5,14 +5,14 @@ import java.util.*
 object TimeUtils {
 
     fun minuteToMillis(minute: Int): Long {
-        return minute * 1_000L
+        return minute * 60_000L
     }
 
-    fun millisToSecond(millis: Long): Long {
+    private fun millisToSecond(millis: Long): Long {
         return millis.div(1_000)
     }
 
-    fun millisToMinute(millis: Long): Long {
+    private fun millisToMinute(millis: Long): Long {
         return millis.div(60_000)
     }
 

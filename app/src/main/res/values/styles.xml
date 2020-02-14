@@ -9,4 +9,9 @@
         <item name="android:textSize">32sp</item>
     </style>
 
+    <style name="Widget.CircleImageView" parent="AppTheme">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerRadius">16dp</item>
+
+    </style>
 </resources>

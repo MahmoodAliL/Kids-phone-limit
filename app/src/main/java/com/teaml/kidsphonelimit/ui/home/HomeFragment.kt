@@ -15,7 +15,10 @@ import com.teaml.circulartimerview.CircularTimerListener
 import com.teaml.circulartimerview.TimeFormatEnum
 import com.teaml.kidsphonelimit.R
 import com.teaml.kidsphonelimit.databinding.HomeFragmentBinding
-import com.teaml.kidsphonelimit.utils.*
+import com.teaml.kidsphonelimit.kotlinx.android.view.hide
+import com.teaml.kidsphonelimit.kotlinx.android.view.show
+import com.teaml.kidsphonelimit.kotlinx.androix.lifecycle.eventObserver
+import com.teaml.kidsphonelimit.utils.TimeUtils
 import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
@@ -135,7 +138,7 @@ class HomeFragment : Fragment() {
             timerProgress.setCircularTimerListener(
                 CircularTimerListener1(),
                 time.toLong(),
-                TimeFormatEnum.SECONDS,
+                TimeFormatEnum.MINUTES,
                 TIMER_INTERVAL,
                 progress
             )
@@ -159,7 +162,6 @@ class HomeFragment : Fragment() {
 
         override fun updateDataOnTick(remainingTimeInMs: Long): String? {
             return TimeUtils.formatElapsedTime(remainingTimeInMs, Locale.ENGLISH)
-            //return DateUtils.formatElapsedTime(TimeUtils.millisToSecond(remainingTimeInMs))
         }
 
         override fun onTimerFinished() {

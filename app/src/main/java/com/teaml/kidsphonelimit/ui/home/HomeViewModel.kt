@@ -6,9 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.teaml.kidsphonelimit.data.repository.AppRepository
+import com.teaml.kidsphonelimit.kotlinx.androix.lifecycle.getValueOrDefault
 import com.teaml.kidsphonelimit.utils.Event
 import com.teaml.kidsphonelimit.utils.TimeUtils
-import com.teaml.kidsphonelimit.utils.getValueOrDefault
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repository: AppRepository) : ViewModel() {

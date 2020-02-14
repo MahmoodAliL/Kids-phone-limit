@@ -17,8 +17,8 @@ import androidx.navigation.fragment.findNavController
 import com.teaml.kidsphonelimit.ExitActivity
 import com.teaml.kidsphonelimit.ON_EXIST_TAG
 import com.teaml.kidsphonelimit.databinding.LockFragmentBinding
-import com.teaml.kidsphonelimit.utils.eventObserver
-import com.teaml.kidsphonelimit.utils.setOnLongPressClick
+import com.teaml.kidsphonelimit.kotlinx.android.view.setOnLongPressClick
+import com.teaml.kidsphonelimit.kotlinx.androix.lifecycle.eventObserver
 import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
