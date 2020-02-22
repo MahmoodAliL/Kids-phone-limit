@@ -2,7 +2,10 @@ package com.teaml.kidsphonelimit.ui.home
 
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
@@ -21,7 +24,9 @@ import com.teaml.kidsphonelimit.kotlinx.androix.lifecycle.eventObserver
 import com.teaml.kidsphonelimit.utils.TimeUtils
 import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 import java.util.*
+
 
 class HomeFragment : Fragment() {
 
@@ -69,7 +74,7 @@ class HomeFragment : Fragment() {
 
     private fun initMinutePicker() {
         binding.minutePicker.setFormatter { value ->
-            String.format(Locale.ENGLISH,"%02d", value)
+            String.format(Locale.ENGLISH, "%02d", value)
         }
 
         binding.minutePicker.setOnValueChangedListener { _, _, newVal ->
@@ -98,7 +103,7 @@ class HomeFragment : Fragment() {
         }
 
         homeViewModel.startAlarmManager.eventObserver(viewLifecycleOwner) { triggerTime ->
-
+            // TODO maybe foreground notification will be more suitable for our case
             AlarmManagerCompat.setExactAndAllowWhileIdle(
                 alarmManager,
                 AlarmManager.ELAPSED_REALTIME_WAKEUP,
@@ -114,6 +119,7 @@ class HomeFragment : Fragment() {
         }
 
 
+        // TODO move to mainActivity if it possible
         homeViewModel.openLockFragment.eventObserver(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_homeFragment_to_lockFragment)
         }
@@ -138,7 +144,7 @@ class HomeFragment : Fragment() {
             timerProgress.setCircularTimerListener(
                 CircularTimerListener1(),
                 time.toLong(),
-                TimeFormatEnum.MINUTES,
+                TimeFormatEnum.SECONDS,
                 TIMER_INTERVAL,
                 progress
             )

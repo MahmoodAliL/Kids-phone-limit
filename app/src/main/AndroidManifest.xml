@@ -3,8 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.teaml.kidsphonelimit">
 
-    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.REORDER_TASKS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+
 
     <application
         android:name=".App"
@@ -16,10 +20,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:excludeFromRecents="true"
-            android:noHistory="true"
             android:screenOrientation="portrait"
-            android:taskAffinity=".MainActivity"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,13 +30,15 @@
         </activity>
         <activity
             android:name=".ExitActivity"
-            android:taskAffinity=".ExitActivity"
             android:theme="@android:style/Theme.NoDisplay" />
 
         <receiver
             android:name=".receiver.AlarmReceiver"
             android:enabled="true"
             android:exported="false" />
+
+        <service android:name=".service.LockPhoneIntentService"
+            android:stopWithTask="false" />
     </application>
 
 </manifest>

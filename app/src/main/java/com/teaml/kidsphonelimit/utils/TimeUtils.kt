@@ -5,7 +5,7 @@ import java.util.*
 object TimeUtils {
 
     fun minuteToMillis(minute: Int): Long {
-        return minute * 60_000L
+        return minute * 1_000L
     }
 
     private fun millisToSecond(millis: Long): Long {

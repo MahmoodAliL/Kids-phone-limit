@@ -5,27 +5,15 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.teaml.kidsphonelimit.databinding.ActivityMainBinding
+import com.teaml.kidsphonelimit.service.LockPhoneIntentService
 
 
 class MainActivity : AppCompatActivity() {
-
-    companion object {
-        fun exitApp(context: Context) {
-            val intent = Intent(context, MainActivity::class.java)
-
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
-
-            intent.putExtra("exist", true)
-
-            context.startActivity(intent)
-        }
-    }
 
     private lateinit var binding: ActivityMainBinding
 
@@ -34,36 +22,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /*if (intent.getBooleanExtra("exist", false)) {
-            if (Build.VERSION.SDK_INT >= 21) {
-                finishAndRemoveTask()
-                Log.d(ON_EXIST_TAG, "finishAndRemoveTask")
-            } else {
-                finish()
-                Log.d(ON_EXIST_TAG, "finish")
-            }
-        }*/
-
-    }
-
-    /*override fun onStart() {
-        super.onStart()
-        if (intent.extras?.getBoolean("lock") == true) {
-            findNavController(R.id.nav_host_fragment).navigate(R.id.action_homeFragment_to_lockFragment)
+        Intent(this, LockPhoneIntentService::class.java).also {
+            stopService(it)
         }
-        Log.d(ON_EXIST_TAG, "onStart MainActivity")
-    }*/
-
-    override fun onStop() {
-        super.onStop()
-        Log.d(ON_EXIST_TAG, "OnStop MainActivity")
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d(ON_EXIST_TAG, "onDestroy MainActivity")
-    }
-
 
 
     override fun onBackPressed() {
