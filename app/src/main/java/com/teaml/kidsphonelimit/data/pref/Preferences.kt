@@ -17,4 +17,9 @@ interface Preferences {
     fun saveLockState(state: Boolean)
 
     fun loadLockState(): Boolean
+
+    fun saveAppBackgroundState(state: Boolean)
+
+    fun loadAppBackgroundState(): Boolean
+
 }

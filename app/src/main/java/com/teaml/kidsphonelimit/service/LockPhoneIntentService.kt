@@ -21,32 +21,24 @@ class LockPhoneIntentService : IntentService("LockIntentService"), KoinComponent
     private val lockScreenPendingIntent: PendingIntent by inject()
     private val repository: AppRepository by inject()
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        return super.onStartCommand(intent, flags, startId)
-    }
 
     override fun onHandleIntent(intent: Intent?) {
-        Log.d(ON_EXIST_TAG, "onHandleIntent")
-
-        val app = ( applicationContext as App)
-
 
         while (repository.loadLockState()) {
-            Thread.sleep(5_000)
             Log.d(TAG, "onHandleIntent: inside loop")
-            // TODO clean if statement
-            if (app.isAppInBackground && ScreenUtils.isScreenAwake(applicationContext)) {
-                Log.d(TAG, "onHandleIntent: sendPendingIntent")
+            if (shouldOpenLockScreen()) {
                 lockScreenPendingIntent.send()
+                Log.d(TAG, "onHandleIntent: sendPendingIntent")
             }
+            Thread.sleep(5_000)
         }
 
         Log.d(TAG, "onHandleIntent: endLoop")
     }
 
 
-    private fun shouldOpenLockScreen() {
-
+    private fun shouldOpenLockScreen(): Boolean {
+        return repository.loadAppBackgroundState() && ScreenUtils.isScreenAwake(applicationContext)
     }
 
 

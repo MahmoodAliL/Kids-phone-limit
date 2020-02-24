@@ -7,12 +7,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.os.PowerManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.teaml.kidsphonelimit.ExitActivity
 import com.teaml.kidsphonelimit.databinding.LockFragmentBinding
 import com.teaml.kidsphonelimit.kotlinx.android.view.setOnLongPressClick
 import com.teaml.kidsphonelimit.kotlinx.androix.lifecycle.eventObserver
@@ -28,15 +28,12 @@ class LockFragment : Fragment() {
     companion object {
         const val TAG = "LockFragment"
         private const val LONG_PRESS_TIME_DURATION: Long = 5_000
-        private const val TIME_INTERVAL: Long = 100
     }
 
     private var _binding: LockFragmentBinding? = null
     private val binding get() = _binding!!
 
     private val lockViewModel: LockViewModel by viewModel()
-    private val alarmManager: AlarmManager by currentScope.inject()
-    private val notifyPendingIntent: PendingIntent by currentScope.inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,27 +60,12 @@ class LockFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-
         val isScreenAwake = ScreenUtils.isScreenAwake(context!!)
         if (lockViewModel.shouldLockPhone() and isScreenAwake) {
-            setAlarmManager()
             finishAndRemoveTask()
         }
     }
 
-
-    private fun setAlarmManager() {
-
-        Intent(context!!, LockPhoneIntentService::class.java).also {
-            activity?.startService(it)
-        }
-/*        AlarmManagerCompat.setExactAndAllowWhileIdle(
-            alarmManager,
-            AlarmManager.ELAPSED_REALTIME_WAKEUP,
-            SystemClock.elapsedRealtime() + TIME_INTERVAL,
-            notifyPendingIntent
-        )*/
-    }
 
     private fun finishAndRemoveTask() {
         val am = activity!!.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
@@ -94,6 +76,8 @@ class LockFragment : Fragment() {
                 val appTask = appTasks[0]
                 appTask.finishAndRemoveTask()
             }
+        } else {
+            ExitActivity.exitApp(context!!)
         }
     }
 

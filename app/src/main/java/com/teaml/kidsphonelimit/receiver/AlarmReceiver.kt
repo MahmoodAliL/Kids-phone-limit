@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.teaml.kidsphonelimit.data.repository.AppRepository
+import com.teaml.kidsphonelimit.service.LockPhoneIntentService
 import kotlinx.coroutines.*
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -26,11 +27,14 @@ class AlarmReceiver : BroadcastReceiver(), KoinComponent {
     override fun onReceive(context: Context, intent: Intent) {
         Log.d(TAG, "onReceive")
 
-        navDeepLinkPendingIntent.send()
+        repository.saveLockState(true)
+
+        Intent(context, LockPhoneIntentService::class.java).also {
+            context.startService(it)
+        }
 
         coroutineScope.launch {
             repository.saveTimerState(false)
-            repository.saveLockState(true)
         }
 
     }

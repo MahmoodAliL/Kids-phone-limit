@@ -35,4 +35,12 @@ class AppRepository(private val preferences: Preferences): Preferences {
     override fun loadLockState(): Boolean {
         return preferences.loadLockState()
     }
+
+    override fun saveAppBackgroundState(state: Boolean) {
+        preferences.saveAppBackgroundState(state)
+    }
+
+    override fun loadAppBackgroundState(): Boolean {
+        return preferences.loadAppBackgroundState()
+    }
 }
