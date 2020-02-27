@@ -10,6 +10,9 @@
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
 
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -39,6 +42,10 @@
 
         <service android:name=".service.LockPhoneIntentService"
             android:stopWithTask="false" />
+
+        <service android:name=".services.ForegroundService"
+            android:enabled="true"
+            android:exported="true"/>
     </application>
 
 </manifest>

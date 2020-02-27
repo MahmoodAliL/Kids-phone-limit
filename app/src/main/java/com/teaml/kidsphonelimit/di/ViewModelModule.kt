@@ -1,5 +1,6 @@
 package com.teaml.kidsphonelimit.di
 
+import com.teaml.kidsphonelimit.MainViewModel
 import com.teaml.kidsphonelimit.ui.about.AboutViewModel
 import com.teaml.kidsphonelimit.ui.home.HomeViewModel
 import com.teaml.kidsphonelimit.ui.lock.LockViewModel
@@ -8,6 +9,7 @@ import org.koin.dsl.module
 
 val viewModelModule = module {
 
+    viewModel { MainViewModel(get()) }
     viewModel { HomeViewModel(get()) }
     viewModel { LockViewModel(get()) }
     viewModel { AboutViewModel() }

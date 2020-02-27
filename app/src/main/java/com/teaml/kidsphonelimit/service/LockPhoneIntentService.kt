@@ -36,7 +36,6 @@ class LockPhoneIntentService : IntentService("LockIntentService"), KoinComponent
         Log.d(TAG, "onHandleIntent: endLoop")
     }
 
-
     private fun shouldOpenLockScreen(): Boolean {
         return repository.loadAppBackgroundState() && ScreenUtils.isScreenAwake(applicationContext)
     }

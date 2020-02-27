@@ -118,8 +118,6 @@ class HomeFragment : Fragment() {
             Log.d(TAG, "onActivityCreated: stopAlarmManager")
         }
 
-
-        // TODO move to mainActivity if it possible
         homeViewModel.openLockFragment.eventObserver(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_homeFragment_to_lockFragment)
         }
