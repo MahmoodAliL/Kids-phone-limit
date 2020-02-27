@@ -142,7 +142,7 @@ class HomeFragment : Fragment() {
             timerProgress.setCircularTimerListener(
                 CircularTimerListener1(),
                 time.toLong(),
-                TimeFormatEnum.SECONDS,
+                TimeFormatEnum.MINUTES,
                 TIMER_INTERVAL,
                 progress
             )
