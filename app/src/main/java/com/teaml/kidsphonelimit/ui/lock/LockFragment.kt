@@ -1,10 +1,7 @@
 package com.teaml.kidsphonelimit.ui.lock
 
 import android.app.ActivityManager
-import android.app.AlarmManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,9 +13,7 @@ import com.teaml.kidsphonelimit.ExitActivity
 import com.teaml.kidsphonelimit.databinding.LockFragmentBinding
 import com.teaml.kidsphonelimit.kotlinx.android.view.setOnLongPressClick
 import com.teaml.kidsphonelimit.kotlinx.androix.lifecycle.eventObserver
-import com.teaml.kidsphonelimit.service.LockPhoneIntentService
 import com.teaml.kidsphonelimit.utils.ScreenUtils
-import org.koin.androidx.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -44,8 +39,18 @@ class LockFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        hideSystemNavigation()
+
         _binding = LockFragmentBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    private fun hideSystemNavigation() {
+        activity?.apply {
+            window.decorView.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,9 +73,10 @@ class LockFragment : Fragment() {
 
 
     private fun finishAndRemoveTask() {
+
         val am = activity!!.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             val appTasks = am.appTasks
             if (appTasks.size > 0) {
                 val appTask = appTasks[0]
@@ -87,7 +93,6 @@ class LockFragment : Fragment() {
         lockViewModel.navigation.eventObserver(viewLifecycleOwner) {
             findNavController().navigateUp()
         }
-
     }
 
     override fun onDestroy() {
